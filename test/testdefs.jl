@@ -52,6 +52,16 @@ function runtests(name, path, isolate=true; seed=nothing)
             end
             if ENV != original_env
                 msg = "The `$(name)` test set mutated ENV and did not restore the original values"
+                for (k, v) in pairs(original_env)
+                    if get(ENV, k, nothing) != v
+                        @info "" k original_env[k] get(ENV, k, nothing)
+                    end
+                end
+                for (k, v) in pairs(ENV)
+                    if get(original_env, k, nothing) != v
+                        @info "" k ENV[k] get(original_env, k, nothing)
+                    end
+                end
                 @error(
                     msg,
                     testset_name = name,
