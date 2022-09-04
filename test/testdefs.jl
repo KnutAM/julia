@@ -50,7 +50,7 @@ function runtests(name, path, isolate=true; seed=nothing)
                 )
                 error(msg)
             end
-            if ENV != original_env
+            if copy(ENV) != original_env
                 msg = "The `$(name)` test set mutated ENV and did not restore the original values"
                 for (k, v) in pairs(original_env)
                     if get(ENV, k, nothing) != v
